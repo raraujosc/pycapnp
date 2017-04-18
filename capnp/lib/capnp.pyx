@@ -37,6 +37,7 @@ _CAPNP_VERSION_MAJOR = capnp.CAPNP_VERSION_MAJOR
 _CAPNP_VERSION_MINOR = capnp.CAPNP_VERSION_MINOR
 _CAPNP_VERSION_MICRO = capnp.CAPNP_VERSION_MICRO
 _CAPNP_VERSION = capnp.CAPNP_VERSION
+_EMPTY_STRING = u''
 
 cdef dict _type_registry = {}
 
@@ -606,6 +607,8 @@ cdef to_python_reader(C_DynamicValue.Reader self, object parent):
         return self.asDouble()
     elif type == capnp.TYPE_TEXT:
         temp_text = self.asText()
+        if temp_text.size() == 0:
+            return _EMPTY_STRING
         return unicode((<char*>temp_text.begin())[:temp_text.size()], "utf-8")
     elif type == capnp.TYPE_DATA:
         temp_data = self.asData()
@@ -639,6 +642,8 @@ cdef to_python_builder(C_DynamicValue.Builder self, object parent):
         return self.asDouble()
     elif type == capnp.TYPE_TEXT:
         temp_text = self.asText()
+        if temp_text.size() == 0:
+            return _EMPTY_STRING
         return unicode((<char*>temp_text.begin())[:temp_text.size()], "utf-8")
     elif type == capnp.TYPE_DATA:
         temp_data = self.asData()
