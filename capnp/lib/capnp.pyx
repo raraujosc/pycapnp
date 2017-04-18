@@ -606,7 +606,7 @@ cdef to_python_reader(C_DynamicValue.Reader self, object parent):
         return self.asDouble()
     elif type == capnp.TYPE_TEXT:
         temp_text = self.asText()
-        return (<char*>temp_text.begin())[:temp_text.size()]
+        return unicode((<char*>temp_text.begin())[:temp_text.size()], "utf-8")
     elif type == capnp.TYPE_DATA:
         temp_data = self.asData()
         return <bytes>((<char*>temp_data.begin())[:temp_data.size()])
@@ -639,7 +639,7 @@ cdef to_python_builder(C_DynamicValue.Builder self, object parent):
         return self.asDouble()
     elif type == capnp.TYPE_TEXT:
         temp_text = self.asText()
-        return (<char*>temp_text.begin())[:temp_text.size()]
+        return unicode((<char*>temp_text.begin())[:temp_text.size()], "utf-8")
     elif type == capnp.TYPE_DATA:
         temp_data = self.asData()
         return <bytes>((<char*>temp_data.begin())[:temp_data.size()])
